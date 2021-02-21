@@ -1,12 +1,18 @@
 require('dotenv').config();
 
+const username = process.env.DB_USER_NAME;
+const password = process.env.DB_USER_PASSWORD;
+const database = process.env.DB_NAME;
+const host = process.env.DB_HOSTNAME;
+const type_dialect = process.env.TYPE_DIALITEC;
+
 module.exports = {
   "development": {
-    "username": process.env.DB_NAME,
-    "password": process.env.DB_USER_PASSWORD,
-    "database": process.env.DB_USER_NAME,
-    "host": process.env.DB_HOSTNAME,
-    "dialect": "postgres"
+    "username": username,
+    "password": password,
+    "database": database,
+    "host": host,
+    "dialect": type_dialect
   },
   "test": {
     "username": "root",
