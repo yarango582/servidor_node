@@ -23,7 +23,7 @@ export const createRole = async (req, res) => {
 
 export const createRoleForUser = async (req, res) => {
 
-    const {userId} = req.body;
+    const userId = req.params.userID;
     const role = req.params.roleID;
 
     const relation = {

@@ -43,7 +43,8 @@ export const login = async (req, res) => {
 
             res.status(200).json({
                 message: "Se inició sesión",
-                token
+                token,
+                docMessage: "si estas en la documentacion copia el token y autoriza tus consultas"
             });
 
         }else{

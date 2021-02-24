@@ -1,0 +1,142 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "Servidor Node",
+        "description": "Servidor Node con Jason Web Tokens, Upload Files, Roles, Validación JOI, Babel, Sequelize",
+        "version": "1.0.1",
+        "termsOfService": "Servidor de pruebas con Node",
+        "contact": {
+            "name": "Yeison Arango Tamayo",
+            "email": "yeisonarango03@gmail.com",
+            "url": "https://portfolio-yarango.netlify.app/"
+        },
+        "license": {
+            "name": "License ISC",
+            "url": "https://es.wikipedia.org/wiki/Licencia_ISC"
+        }
+    },
+    "paths": {
+        "/api/v1/login":{
+            "post":{
+                "summary": "Inicia sesión para generar un token",
+                "tags": ["Autenticación"],
+                "description": "Inicio de sesión al sistema",
+                "requestBody":{
+                    "description": "Credenciales de acceso",
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Login"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200":{
+                        "description": "Credenciales correctas"
+                    },
+                    "401":{
+                        "description": "Verifica tus credenciales"
+                    }
+                }
+            }
+        },
+        "/api/v1/signup":{
+            "post":{
+                "summary": "Registra un usuario",
+                "tags": ["Autenticación"],
+                "description": "Registro de nuevo usuario",
+                "requestBody":{
+                    "description": "Ingresa tus datos",
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Signup"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201":{
+                        "description": "Usuario creado correctamente"
+                    },
+                    "401":{
+                        "description": "No fue posible crear el usuario"
+                    }
+                }
+            }
+        },
+        "/api/v1/users":{
+            "get":{
+                "summary": "Ver usuarios en sistema",
+                "tags": ["Users"],
+                "description": "Registro de nuevo usuario",
+                "responses": {
+                    "200":{
+                        "description": "Petición exitosa"
+                    },
+                    "401":{
+                        "description": "Inicia sesión y autorizate con tu token"
+                    },
+                    "500":{
+                        "description": "No se identifica un token valido, inicia sesión"
+                    }
+                },
+                "security": [
+                    {
+                        "authorization":[]
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Login":{
+                "type": "object",
+                "required": [
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "email":{
+                        "type": "string"
+                    },
+                    "password":{
+                        "type": "string"
+                    }
+                }
+            },
+            "Signup":{
+                "type": "object",
+                "required": [
+                    "firtsName",
+                    "lastName",
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "firtsName":{
+                        "type": "string"
+                    },
+                    "lastName":{
+                        "type": "string"
+                    },
+                    "email":{
+                        "type": "string"
+                    },
+                    "password":{
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "authorization":{
+                "name": "bearerAuth",
+                "in": "header",
+                "type": "apiKey"
+            }
+        }
+    }
+}

@@ -10,23 +10,31 @@
     "express": "^4.17.1",
     "express-jwt": "^6.0.0",
     "helmet": "^4.4.1",
+    "joi": "^17.4.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.7",
     "pg": "^8.5.1",
     "pg-hstore": "^2.3.3",
-    "sequelize": "^6.5.0"
+    "sequelize": "^6.5.0",
+    "swagger-ui-express": "^4.1.6",
+    "uuid": "^8.3.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@babel/cli": "^7.13.0",
+    "@babel/core": "^7.13.1",
+    "@babel/node": "^7.13.0",
+    "@babel/preset-env": "^7.13.5",
+    "babel-cli": "^6.26.0"
+  },
   "scripts": {
     "start": "node ./dist/server.js",
     "dev": "nodemon --exec babel-node ./src/server.js",
     "build": "npm run clean && babel ./src --out-dir dist --copy-files",
     "clean": "rm -rf dist",
     "test": "jest"
-    
   },
   "keywords": [],
-  "author": "",
+  "author": "Yeison Arango Tamayo",
   "license": "ISC"
 }

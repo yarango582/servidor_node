@@ -5,6 +5,7 @@ import morgan from "morgan";
 import authRouter from "./routes/auth";
 import userRouter from "./routes/users";
 import rolesRouter from "./routes/roles";
+import swaggerRouter from "./routes/swagger";
 
 const app = express();
 
@@ -15,5 +16,7 @@ app.use(morgan("dev"));
 app.use(authRouter);
 app.use(userRouter);
 app.use(rolesRouter);
+app.use(swaggerRouter);
+
 
 export default app;

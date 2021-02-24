@@ -17,21 +17,18 @@ export const generateJWT = (user) => {
 }
 
 export const validateJWT = (req, res, next) => {
+    
+    let {bearerauth} = req.headers;
 
-    
-    const bearerToken = req.headers['authorization'];
-    const token = bearerToken.split(" ")[1];
-    
-    if(token){
+    if(bearerauth){
 
         try {
-            const decoded = jwt.verify(token, secretKey);   
+            const decoded = jwt.verify(bearerauth, secretKey);   
             next();
         } catch (error) {
             res.status(401).json({
                 message: "El token de sesion es invalido"
             })
-            console.log(error);
         }
 
     }
