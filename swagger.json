@@ -88,6 +88,103 @@
                     }
                 ]
             }
+        },
+        "/api/v1/roles":{
+            "post":{
+                "summary": "Crea un rol",
+                "tags": ["Roles"],
+                "description": "Registro de nuevo rol",
+                "requestBody":{
+                    "description": "Ingresa tus datos",
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Roles"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201":{
+                        "description": "Se creo el rol"
+                    },
+                    "401":{
+                        "description": "No fue posible crear el rol"
+                    }
+                },
+                "security": [
+                    {
+                        "authorization":[]
+                    }
+                ]
+            }
+        },
+        "/api/v1/users/{userID}/roles/{rolesID}":{
+            "post":{
+                "summary": "Asigna un rol",
+                "tags": ["Roles"],
+                "description": "Asigna un rol a un usuario",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "userID",
+                        "required": true,
+                        "schema":{
+                            "type": "integer",
+                            "minimum": 1,
+                            "description": "User ID"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "rolesID",
+                        "required": true,
+                        "schema":{
+                            "type": "integer",
+                            "minimum": 1,
+                            "description": "Role ID"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201":{
+                        "description": "Se creo el rol"
+                    },
+                    "401":{
+                        "description": "No fue posible crear el rol"
+                    }
+                },
+                "security": [
+                    {
+                        "authorization":[]
+                    }
+                ]
+            }
+        },
+        "/api/v1/reset-password":{
+            "post":{
+                "summary": "Genera token para cambiar contraseña",
+                "tags": ["Autenticación"],
+                "description": "Genera un token para ir  a cambiar tu contraseña",
+                "requestBody":{
+                    "description": "Ingresa tus datos",
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Reset-password"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201":{
+                        "description": "Se realizó el proceso correctamente"
+                    },
+                    "401":{
+                        "description": "No se encontró el email ingresado"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -126,6 +223,28 @@
                         "type": "string"
                     },
                     "password":{
+                        "type": "string"
+                    }
+                }
+            },
+            "Roles":{
+                "type": "object",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name":{
+                        "type": "string"
+                    }
+                }
+            },
+            "Reset-password":{
+                "type": "object",
+                "required": [
+                    "email"
+                ],
+                "properties": {
+                    "email":{
                         "type": "string"
                     }
                 }

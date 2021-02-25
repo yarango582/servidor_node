@@ -31,6 +31,10 @@ export const validateJWT = (req, res, next) => {
             })
         }
 
+    }else{
+        res.status(500).json({
+            message: "No se ha identificado el token, ingresa sesión"
+        })
     }
 
 }
