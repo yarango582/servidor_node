@@ -185,6 +185,43 @@
                     }
                 }
             }
+        },
+        "/api/v1/users/{userID}/update-password":{
+            "put":{
+                "summary": "Actualiza tu contraseña",
+                "tags": ["Autenticación"],
+                "description": "Cambia tu contraseña a partir del token generado en reset password",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "userID",
+                        "required": true,
+                        "schema":{
+                            "type": "integer",
+                            "minimum": 1,
+                            "description": "User ID"
+                        }
+                    }
+                ],
+                "requestBody":{
+                    "description": "Ingresa tus datos",
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/Update-password"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201":{
+                        "description": "Se realizó el proceso correctamente"
+                    },
+                    "401":{
+                        "description": "Por favor verifica que el token o genera uno nuevo"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -245,6 +282,22 @@
                 ],
                 "properties": {
                     "email":{
+                        "type": "string"
+                    }
+                }
+            },
+            "Update-password":{
+                "type": "object",
+                "required": [
+                    "password",
+                    "token"
+                ],
+                "properties": {
+                    "password":{
+                        "type": "string",
+                        "minimum": 8
+                    },
+                    "token":{
                         "type": "string"
                     }
                 }
