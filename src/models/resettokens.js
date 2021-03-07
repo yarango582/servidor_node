@@ -11,10 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      ResetTokens.belongsTo(models.Users, {
-        through: "Users",
-        foreignKey: "id"
-      })
+
     }
   };
   ResetTokens.init({

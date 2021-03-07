@@ -3,6 +3,8 @@ import {generateJWT} from "../middlewares/jwt";
 import { v4 as uuidv4, validate } from "uuid";
 import bcrypt from "bcrypt";
 import moment from "moment";
+import {goSendPassword} from "../utils/mail";
+import {templateMail} from "../utils/handlerbars";
 
 export const signUp = async (req, res) => {
 
@@ -12,9 +14,17 @@ export const signUp = async (req, res) => {
     const datos = req.body;
 
     try {
-       
-       const results = await Users.create(datos);
-       res.status(201).json(results);
+
+       const searchPeople = await Users.findOne({where: {email: datos.email}});
+
+       if(searchPeople){
+           res.status(500).json({
+               message: "El correo ingresado ya esta uso"
+           })
+       }else{   
+        const results = await Users.create(datos);
+        res.status(201).json(results);
+       }
 
     } catch (error) {
         res.status(401).json({
@@ -87,6 +97,26 @@ export const resetPassword = async (req, res) => {
 
             const data = await ResetTokens.create(resetTokenObj);
 
+
+            // datos para el template del correo
+            let url = `miApp/api/v1/users/${results.id}/update-password`;
+
+            let objBodyMail = {
+                urlNewPass: url,
+                passwordResetAddress: token
+            }
+
+            let template = templateMail(objBodyMail);
+
+            // fin de datos y compilacion con handlebars para el html del correo
+
+            // inicio del envío del correo
+            let checkSendMail = await goSendPassword(
+                process.env.MAIL_USER,
+                email,
+                template
+            );
+
             res.status(200).json(
                 {
                     message: "peticion exitosa",
@@ -101,6 +131,7 @@ export const resetPassword = async (req, res) => {
         }
 
     } catch (error) {
+        console.log(error);
         res.status(400).json({
             message: "No se ha podido completar la solicitud"
         })
@@ -113,7 +144,7 @@ export const updatePassword = async (req, res) => {
     const {token, password} = req.body;
     const  idUser = req.params.userID;
     const  fechaActual = moment();
-    const hasPassword = bcrypt.hashSync(password, 10);
+    const hashPassword = bcrypt.hashSync(password, 10);
 
     try {
 
@@ -126,7 +157,7 @@ export const updatePassword = async (req, res) => {
 
                 if(estadoFecha && results.active){
 
-                    const data = await Users.update({password: hasPassword},{where:{id: idUser}})
+                    const data = await Users.update({password: hashPassword},{where:{id: idUser}})
 
                     if(data){
                         res.status(201).json({
